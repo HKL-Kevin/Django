@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>书籍</title>
+    <link rel="stylesheet" href="/static/plugins/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+</head>
+
+
+<body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid" >
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">图书管理系统</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <form class="navbar-form navbar-right" action="/search/" method="POST">
+                    <input type="text" name="search_for" class="form-control" placeholder="搜索书籍">
+                    <button  type="submit" class="btn btn-primary">搜索</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3 col-md-2 sidebar">
+                <div>
+                    <ul class="nav nav-sidebar">
+                        <li ><a href="/publisher_list">出版社</a></li>
+                        <li><a href="/author_list/">作者</a></li>
+                        <li class="active"><a href="/book_list/">书籍</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                <h2 class="sub-header">书籍列表<span style="float: right;font-size:medium;"><a class="btn btn-primary btn-sm"
+                            href="/book_add/">新增书籍</a></span></h2>
+                <div class="table-responsive"> 
+                    <table class="table table-borderrd table-hover">
+                        <thead>
+                            <tr bgcolor="DeepSkyBlue">
+                                <th>序号</th>
+                                <th>藏书编号</th>
+                                <th>书名</th>
+                                <th>出版社名称</th>
+                                <th>作者</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {%for book in all_book%}
+                            <tr>
+                                <td>{{forloop.counter}}</td>
+                                <td>{{book.id}}</td>
+                                <td><a href="/book_det/?pk={{book.pk}}">{{book.name}}</a></td>
+                                <td>{{book.publisher.name}}</td>
+                                <td>
+                                    {% for author in book.author.all %}
+                                        {% if forloop.counter == 1 %}
+                                            {{author.name}}
+                                        {% else %}
+                                            &{{author.name}}
+                                        {% endif %}
+                                    {%endfor%}
+                                </td>
+                                <td>
+                                    <a class="btn btn-danger btn-sm" href="/book_del/?pk={{book.pk}}">删除</a>
+                                    <a class="btn btn-primary btn-sm" href="/book_edit/?pk={{book.pk}}">编辑</a>
+                                </td>
+                            </tr>
+                            {%endfor%}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <table border="1">
+        <a href="/book_add/">新增书籍</a>
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>id</th>
+                <th>书名</th>
+                <th>出版社编号</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for book in all_book%}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{book.id}}</td>
+                <td>{{book.name}}</td>
+                <td>{{book.publisher_id}}</td>
+                <td>
+                    <a href="/book_del/?pk={{book.pk}}">删除</a>
+                    <a href="/book_edit/?pk={{book.pk}}">编辑</a>
+                </td>
+            </tr>
+            {%endfor%}
+
+        </tbody>
+    </table>
+</body>
+
+</html> -->
